@@ -208,3 +208,5 @@ __marimo__/
 
 .chromedriver
 chromedriver/
+
+config.json
