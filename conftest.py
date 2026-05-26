@@ -4,7 +4,7 @@ from selenium.webdriver.common.by import By
 import json
 
 
-@pytest.fixture(scope='session')
+@pytest.fixture(scope='function')
 def browser():
     # Фикстура для браузера
     print('\nstart browser for test..')
@@ -14,7 +14,7 @@ def browser():
     browser.quit()
 
 
-@pytest.fixture(scope='session')
+@pytest.fixture(scope='function')
 def load_config():
     # Открываем файл с конфигом в режиме чтения
     with open('config.json', 'r') as config_file:
