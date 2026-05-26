@@ -24,7 +24,8 @@ class TestParametrize:
         login_button = wait.until(EC.element_to_be_clickable((By.ID, 'ember503')))
         login_button.click()
         # Поле логина
-        username_input = wait.until(EC.visibility_of_element_located((By.ID, 'id_login_email')))
+        #username_input = wait.until(EC.visibility_of_element_located((By.ID, 'id_login_email')))
+        username_input = browser.find_element(By.ID, 'id_login_email')
         # Поле пароля
         password_input = browser.find_element(By.ID, 'id_login_password')
         # Ввод данных
@@ -44,12 +45,12 @@ class TestParametrize:
         [
             'https://stepik.org/lesson/236895/step/1',
             'https://stepik.org/lesson/236896/step/1',
-            # 'https://stepik.org/lesson/236897/step/1',
-            # 'https://stepik.org/lesson/236898/step/1',
-            # 'https://stepik.org/lesson/236899/step/1',
-            # 'https://stepik.org/lesson/236903/step/1',
-            # 'https://stepik.org/lesson/236904/step/1',
-            # 'https://stepik.org/lesson/236905/step/1',
+            'https://stepik.org/lesson/236897/step/1',
+            'https://stepik.org/lesson/236898/step/1',
+            'https://stepik.org/lesson/236899/step/1',
+            'https://stepik.org/lesson/236903/step/1',
+            'https://stepik.org/lesson/236904/step/1',
+            'https://stepik.org/lesson/236905/step/1',
         ]
     )
     def test_parametrize_section_3_6_lesson_5(self, browser, load_config, link):
@@ -59,29 +60,21 @@ class TestParametrize:
         # Авторизация
         self.login_stepik(browser, load_config)
         # Поле ответа
-        textarea = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, 'textarea')))
+        textarea = WebDriverWait(browser, 10).until(EC.element_to_be_clickable((By.CSS_SELECTOR, 'textarea')))
+        textarea.clear()
         # Ввод актуального ответа
         textarea.send_keys(self.calc_answer())
-        # Ждем пока все обновиться
-        time.sleep(2)
         # Пытаемся нажать кнопку 'Отправить' несколько раз
-        for i in range(10):
-            try:
-                submit_button = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, '.submit-submission')))
-
-                submit_button.click()
-                break
-            except StaleElementReferenceException:
-                time.sleep(1)
-
+        # for i in range(2):
+        #     try:
+        #         submit_button = wait.until(EC.visibility_of_element_located((By.XPATH, "//button[@type='submit']")))
+        #         submit_button.click()
+        #         break
+        #
+        submit_button = WebDriverWait(browser, 10).until(EC.element_to_be_clickable((By.XPATH, "//button[@type='submit']")))
+        submit_button.click()
         # Получение feedback
-        feedback = wait.until(
-            EC.visibility_of_element_located(
-                (By.CLASS_NAME, 'show-more__content')
-            )
-        )
-        feedback_text = feedback.text
-
+        feedback_text= WebDriverWait(browser, 10).until(EC.element_to_be_clickable((By.CSS_SELECTOR, '.smart-hints'))).text
         # Проверка результата
         assert feedback_text == 'Correct!', \
             f'Expected "Correct!", but got "{feedback_text}"'
