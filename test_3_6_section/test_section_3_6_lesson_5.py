@@ -1,3 +1,9 @@
+"""
+Резюме: Сам Сайт работает очень криво, из-за этого тесты падают с разными ошибками.
+Получилось получить на каждой странице ответы.
+Сам ответ: The owls are not what they seem! OvO
+"""
+
 import pytest
 import math
 import time
@@ -35,13 +41,13 @@ class TestParametrize:
         # Авторизация
         login_page = LoginPage(browser)
         login_page.login(email=load_config['login_stepik'], password=load_config['password_stepik'])
-
+        browser.implicitly_wait(3)
         # Поле ответа
         textarea = WebDriverWait(browser, 10).until(EC.element_to_be_clickable((By.CSS_SELECTOR, 'textarea.ember-text-area.string-quiz__textarea')))
         textarea.clear()
         # Ввод актуального ответа
         textarea.send_keys(self.calc_answer())
-        #browser.implicitly_wait(5)
+        browser.implicitly_wait(3)
 
         # Пытаемся нажать кнопку 'Отправить'
         #submit_button = WebDriverWait(browser, 10).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "button.submit-submission")))
@@ -53,7 +59,7 @@ class TestParametrize:
         elif browser.find_element(By.CSS_SELECTOR,'button.submit-submission'):
             submit_button = browser.find_element(By.CSS_SELECTOR,'button.submit-submission')
             submit_button.click()
-        #browser.implicitly_wait(3)
+        browser.implicitly_wait(3)
 
         # Получение feedback
         feedback_text= WebDriverWait(browser, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, 'p.smart-hints')))
