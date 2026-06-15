@@ -1,11 +1,6 @@
 import pytest
-import math
-import time
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from conftest import browser, load_config
-from pages.stepik_login_page import LoginPage
+
 
 class TestDiffLang:
     @staticmethod
@@ -15,6 +10,8 @@ class TestDiffLang:
         browser.get(f'http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/')
         browser.implicitly_wait(10)
 
-    def test_login_page(self, setup):
-        print(f'Говно работает!')
+    def test_login_page(self, setup, browser):
+        button = browser.find_element(By.CSS_SELECTOR, 'button.btn-add-to-basket')
+
+        assert button.is_displayed(), "Кнопка добавления в корзину не найдена на странице"
 
